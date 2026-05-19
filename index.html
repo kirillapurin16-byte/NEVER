@@ -3,33 +3,135 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>M5Stick Plus 2 — прошивка, видео, гайды</title>
+    <title>M5Stick Plus 2 — NEVERDROID</title>
     <style>
+        /* Базовые переменные для светлой темы */
+        :root {
+            --bg-color: #f3eef9;
+            --text-color: #1e1a2f;
+            --section-bg: #ffffff;
+            --border-color: #e2d6f0;
+            --title-color: #4b2e7c;
+            --card-bg: #faf8ff;
+            --card-border: #d9caf2;
+            --desc-color: #3a2f56;
+            --url-bg: #f3effa;
+            --url-link: #6d4fc7;
+            --video-card-bg: #fcfaff;
+            --video-link-bg: #ede4ff;
+            --video-link-text: #4a2c8c;
+            --shadow: rgba(0, 0, 0, 0.05);
+        }
+
+        /* Переменные для темной темы */
+        [data-theme="dark"] {
+            --bg-color: #0f0c1b;
+            --text-color: #e2daf0;
+            --section-bg: #161224;
+            --border-color: #2d2540;
+            --title-color: #b794f4;
+            --card-bg: #1d1830;
+            --card-border: #362c4d;
+            --desc-color: #c4b9db;
+            --url-bg: #120e21;
+            --url-link: #a78bfa;
+            --video-card-bg: #1a152b;
+            --video-link-bg: #2d224d;
+            --video-link-text: #d6c4ff;
+            --shadow: rgba(0, 0, 0, 0.3);
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
         }
 
         body {
-            background: #f3eef9;
+            background: var(--bg-color);
             font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, sans-serif;
             padding: 40px 20px;
-            color: #1e1a2f;
+            color: var(--text-color);
+            overflow-x: hidden;
         }
 
+        /* Приветственный экран */
+        #splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0f0c1b;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            opacity: 1;
+            transition: opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .splash-content {
+            text-align: center;
+            color: #ffffff;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: splashFadeIn 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards 0.2s;
+            padding: 0 20px;
+        }
+
+        .splash-title {
+            font-size: 2.2rem;
+            color: #b794f4;
+            font-weight: 700;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        .splash-subtitle {
+            font-size: 1.1rem;
+            color: #a295c0;
+            line-height: 1.5;
+            max-width: 500px;
+        }
+
+        @keyframes splashFadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Основной контейнер (скрыт изначально для плавности) */
         .container {
             max-width: 1100px;
             margin: 0 auto;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .container.loaded {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Шапка с переключателем темы */
+        .header-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            gap: 16px;
         }
 
         /* Навигация вкладок */
         .tabs-nav {
             display: flex;
             gap: 12px;
-            margin-bottom: 24px;
             overflow-x: auto;
-            padding-bottom: 8px;
+            padding-bottom: 4px;
             scrollbar-width: none;
         }
 
@@ -38,22 +140,21 @@
         }
 
         .tab-btn {
-            background: #ffffff;
-            color: #5e3a9c;
-            border: 1px solid #e2d6f0;
-            padding: 12px 26px;
+            background: var(--section-bg);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            padding: 12px 24px;
             border-radius: 40px;
             font-size: 0.95rem;
             font-weight: 600;
             cursor: pointer;
             white-space: nowrap;
             transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+            box-shadow: 0 4px 12px var(--shadow);
         }
 
         .tab-btn:hover {
             border-color: #b794f4;
-            background: #faf8ff;
         }
 
         .tab-btn.active {
@@ -63,13 +164,31 @@
             box-shadow: 0 8px 20px rgba(155, 107, 223, 0.25);
         }
 
-        /* Контент вкладок и ультра-плавная анимация */
+        /* Переключатель темы */
+        .theme-toggle-btn {
+            background: var(--section-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 12px 20px;
+            border-radius: 40px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+
+        .theme-toggle-btn:hover {
+            border-color: #b794f4;
+        }
+
+        /* Контент вкладок */
         .tab-content {
             display: none;
             opacity: 0;
             transform: translateY(15px);
             will-change: transform, opacity;
-            transition: opacity 0.5s cubic-bezier(0.25, 1, 0.5, 1), transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+            transition: opacity 0.4s cubic-bezier(0.25, 1, 0.5, 1), transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
         .tab-content.active {
@@ -83,17 +202,17 @@
 
         /* Секции и карточки */
         .section {
-            background: #ffffff;
+            background: var(--section-bg);
             border-radius: 32px;
             padding: 32px;
-            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.05);
-            border: 1px solid #e2d6f0;
+            box-shadow: 0 12px 28px var(--shadow);
+            border: 1px solid var(--border-color);
         }
 
         .section-title {
             font-size: 1.8rem;
             font-weight: 600;
-            color: #4b2e7c;
+            color: var(--title-color);
             margin-bottom: 28px;
             padding-left: 14px;
             border-left: 5px solid #9b6bdf;
@@ -102,8 +221,8 @@
 
         .badge {
             display: inline-block;
-            background: #ede7f6;
-            color: #5e3a9c;
+            background: var(--url-bg);
+            color: var(--title-color);
             padding: 4px 14px;
             border-radius: 30px;
             font-size: 0.7rem;
@@ -111,8 +230,8 @@
             margin-bottom: 18px;
         }
 
-        /* Сетка методов прошивки */
-        .methods-grid {
+        /* Сетки */
+        .methods-grid, .video-grid {
             display: flex;
             flex-wrap: wrap;
             gap: 24px;
@@ -121,13 +240,13 @@
         }
 
         .card {
-            background: #faf8ff;
+            background: var(--card-bg);
             border-radius: 28px;
             padding: 24px;
             flex: 1;
             min-width: 280px;
             max-width: 340px;
-            border: 1px solid #d9caf2;
+            border: 1px solid var(--card-border);
             transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
             display: flex;
             flex-direction: column;
@@ -147,7 +266,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            color: #2d2742;
+            color: var(--text-color);
         }
 
         .status {
@@ -168,7 +287,7 @@
         }
 
         .url {
-            background: #f3effa;
+            background: var(--url-bg);
             padding: 10px 14px;
             border-radius: 18px;
             font-family: 'SF Mono', 'Fira Code', monospace;
@@ -177,18 +296,17 @@
             word-break: break-all;
         }
         .url a {
-            color: #6d4fc7;
+            color: var(--url-link);
             text-decoration: none;
             font-weight: 500;
         }
         .url a:hover {
             text-decoration: underline;
-            color: #3b1e77;
         }
 
         .card-desc {
             font-size: 0.85rem;
-            color: #3a2f56;
+            color: var(--desc-color);
             line-height: 1.4;
             flex-grow: 1;
         }
@@ -197,24 +315,18 @@
             font-size: 0.8rem;
             margin-top: 14px;
             padding-top: 12px;
-            border-top: 1px solid #e5daf5;
+            border-top: 1px solid var(--border-color);
             color: #a1622c;
         }
 
-        /* Видео сетка */
-        .video-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 24px;
-            margin: 25px 0 10px;
-        }
+        /* Видео карточки */
         .video-card {
-            background: #fcfaff;
+            background: var(--video-card-bg);
             border-radius: 28px;
             padding: 24px;
             flex: 1;
             min-width: 280px;
-            border: 1px solid #ddd0f0;
+            border: 1px solid var(--border-color);
             transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
             display: flex;
             flex-direction: column;
@@ -223,65 +335,62 @@
         }
         .video-card:hover {
             border-color: #b794f4;
-            background: #fff;
             transform: translateY(-3px);
             box-shadow: 0 12px 24px -8px rgba(100, 70, 150, 0.1);
         }
         .video-title {
             font-size: 1.25rem;
             font-weight: 600;
-            color: #2b1f44;
+            color: var(--text-color);
             line-height: 1.4;
         }
         .video-link {
-            background: #ede4ff;
+            background: var(--video-link-bg);
             padding: 12px 24px;
             border-radius: 44px;
             text-decoration: none;
-            color: #4a2c8c;
+            color: var(--video-link-text);
             font-weight: 600;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            transition: 0.2s;
+            transition: opacity 0.2s;
             font-size: 0.9rem;
         }
         .video-link:hover {
-            background: #ddd0ff;
-            color: #2c1c5a;
+            opacity: 0.9;
         }
 
         .divider-light {
             height: 1px;
-            background: #e2d6f0;
+            background: var(--border-color);
             margin: 28px 0 18px;
         }
 
         .info-note {
             font-size: 0.9rem;
-            color: #54467a;
+            color: var(--desc-color);
         }
 
         .conclusion {
-            background: #f9f5ff;
+            background: var(--card-bg);
             border-radius: 28px;
             padding: 24px 28px;
             text-align: center;
             margin-top: 24px;
-            border: 1px solid #d7c7f0;
+            border: 1px solid var(--border-color);
         }
         .conclusion h3 {
             font-size: 1.4rem;
-            color: #472e7a;
+            color: var(--title-color);
             font-weight: 600;
             margin-bottom: 6px;
         }
 
-        /* Стили для поддержки */
+        /* Поддержка */
         .support-card {
-            background: #faf8ff;
-            border: 1px solid #d9caf2;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
             border-radius: 28px;
             padding: 32px;
             text-align: center;
@@ -290,7 +399,7 @@
         }
         .support-text {
             font-size: 1rem;
-            color: #3a2f56;
+            color: var(--desc-color);
             margin-bottom: 24px;
             line-height: 1.5;
         }
@@ -308,13 +417,12 @@
         .tg-btn:hover {
             background: #8452c9;
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(155, 107, 223, 0.3);
         }
 
         footer {
             text-align: center;
             font-size: 0.8rem;
-            color: #8d7aaa;
+            color: var(--desc-color);
             margin-top: 45px;
             padding: 20px 0;
         }
@@ -322,6 +430,13 @@
         @media (max-width: 768px) {
             body {
                 padding: 20px 12px;
+            }
+            .header-actions {
+                flex-direction: column-reverse;
+                align-items: stretch;
+            }
+            .theme-toggle-btn {
+                text-align: center;
             }
             .section { 
                 padding: 24px 20px; 
@@ -342,49 +457,83 @@
     </style>
 </head>
 <body>
-<div class="container">
 
-    <!-- КНОПКИ ПЕРЕКЛЮЧЕНИЯ ВКЛАДОК -->
-    <div class="tabs-nav">
-        <button class="tab-btn active" onclick="openTab(event, 'firmware')">Прошивка</button>
-        <button class="tab-btn" onclick="openTab(event, 'reviews')">Обзоры</button>
-        <button class="tab-btn" onclick="openTab(event, 'files')">Передача файлов</button>
-        <button class="tab-btn" onclick="openTab(event, 'support')">Помощь и поддержка</button>
+<!-- ЭКРАН ПРИВЕТСТВИЯ -->
+<div id="splash-screen">
+    <div class="splash-content">
+        <h1 class="splash-title">NEVERDROID</h1>
+        <p class="splash-subtitle">Здравствуйте! Вас приветствует команда ТГК NEVERDROID. Не стесняйтесь переходить в наш чат и задавать любые вопросы.</p>
+    </div>
+</div>
+
+<!-- ОСНОВНОЙ КОНТЕНТ -->
+<div class="container" id="main-container">
+
+    <!-- НАВИГАЦИЯ И СМЕНА ТЕМЫ -->
+    <div class="header-actions">
+        <div class="tabs-nav">
+            <button class="tab-btn active" onclick="openTab(event, 'firmware')">Прошивка</button>
+            <button class="tab-btn" onclick="openTab(event, 'reviews')">Обзоры</button>
+            <button class="tab-btn" onclick="openTab(event, 'files')">Передача файлов</button>
+            <button class="tab-btn" onclick="openTab(event, 'support')">Помощь и поддержка</button>
+        </div>
+        <button class="theme-toggle-btn" onclick="toggleTheme()" id="theme-btn">Сменить тему</button>
     </div>
 
     <!-- ВКЛАДКА 1: ПРОШИВКА -->
     <div id="firmware" class="tab-content active visible">
         <div class="section">
             <div class="badge">FIRMWARE · M5STICK PLUS 2</div>
-            <div class="section-title">Прошивка — проверенные способы</div>
+            <div class="section-title">Прошивка — проверенные способы и дистрибутивы</div>
             <div class="methods-grid">
                 <div class="card">
                     <div>
                         <div class="card-title">M5Flasher <span class="status success">100%</span></div>
                         <div class="url"><a href="https://m5flasher.github.io" target="_blank">m5flasher.github.io</a></div>
-                        <div class="card-desc">Онлайн-прошивка из браузера, порт и прошивка в один клик.</div>
+                        <div class="card-desc">Онлайн-прошивка из браузера, автоматическое определение порта в один клик.</div>
                     </div>
                     <div class="problem">Максимальная версия прошивки — 1.11</div>
                 </div>
                 <div class="card">
                     <div>
                         <div class="card-title">M5Burner <span class="status success">100%</span></div>
-                        <div class="url"><a href="https://docs.m5stack.com/en/uiflow/m5burner/intro" target="_blank">docs.m5stack.com / m5burner</a></div>
-                        <div class="card-desc">Официальное приложение (Win/Mac/Linux): прошивка, сброс, бэкап.</div>
+                        <div class="url"><a href="https://docs.m5stack.com/en/uiflow/m5burner/intro" target="_blank">docs.m5stack.com</a></div>
+                        <div class="card-desc">Официальный софт на ПК (Win/Mac/Linux). Идеально для бэкапов и полной очистки памяти.</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div>
+                        <div class="card-title">Marauder <span class="status success">Пакетный</span></div>
+                        <div class="url"><a href="https://github.com/justcallmekoko/ESP32Marauder" target="_blank">github.com / marauder</a></div>
+                        <div class="card-desc">Легендарный инструмент анализа Wi-Fi и Bluetooth сетей, адаптированный под M5Stick.</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div>
+                        <div class="card-title">Nemo <span class="status success">Стабильно</span></div>
+                        <div class="url"><a href="https://github.com/nemo-firmware" target="_blank">github.com / nemo</a></div>
+                        <div class="card-desc">Многофункциональный интерфейс со встроенными утилитами для тестирования радиочастот.</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div>
+                        <div class="card-title">CatSniffer <span class="status success">Тест</span></div>
+                        <div class="url"><a href="https://github.com/RoganDawes/CatSniffer" target="_blank">github.com / catsniffer</a></div>
+                        <div class="card-desc">Специализированная прошивка для сниффинга и анализа пакетов протоколов связи.</div>
                     </div>
                 </div>
                 <div class="card">
                     <div>
                         <div class="card-title">Bruce <span class="status warning">~50%</span></div>
                         <div class="url"><a href="https://bruce.computer" target="_blank">bruce.computer</a></div>
-                        <div class="card-desc">Прошивки, исходники, документация.</div>
+                        <div class="card-desc">Альтернативная прошивка, открытый исходный код и кастомная документация.</div>
                     </div>
-                    <div class="problem">Совместимость частичная, нестабильно</div>
+                    <div class="problem">Совместимость частичная, может работать нестабильно</div>
                 </div>
             </div>
             <div class="conclusion">
                 <h3>Вывод</h3>
-                <p>Используйте M5Flasher или M5Burner — гарантированная работа.</p>
+                <p>Используйте базовые утилиты M5Flasher или M5Burner для заливки Marauder и Nemo.</p>
             </div>
         </div>
     </div>
@@ -431,55 +580,83 @@
     <div id="support" class="tab-content">
         <div class="section">
             <div class="badge">ПОДДЕРЖКА · СВЯЗЬ</div>
-            <div class="section-title">Помощь и поддержка</div>
+            <div class="section-title">Помощь и поддержка сообщества</div>
             <div class="support-card">
-                <p class="support-text">Если у вас возникли вопросы по прошивке, работе устройства или нужна помощь, вы можете написать мне напрямую в Telegram.</p>
-                <a href="https://t.me/wortiix" target="_blank" class="tg-btn">Написать в Telegram @wortiix</a>
+                <p class="support-text">Возникли трудности при установке, не подключается порт или нашли баг в прошивке? Задавайте любые вопросы в нашем официальном чате NEVERDROID.</p>
+                <a href="https://t.me/NEVERDROID" target="_blank" class="tg-btn">Перейти в NEVERDROID</a>
             </div>
         </div>
     </div>
 
     <!-- ИТОГ / ПОДПИСЬ -->
     <footer>
-        M5Stick Plus 2 | всё в одном месте: прошивка, обзоры, загрузка файлов
+        NEVERDROID | Всё для M5Stick Plus 2 в одном месте
     </footer>
 </div>
 
 <script>
+    // Управление экраном приветствия
+    window.addEventListener('DOMContentLoaded', () => {
+        const splash = document.getElementById('splash-screen');
+        const container = document.getElementById('main-container');
+        
+        // Время показа заставки: 2.2 секунды, затем уход в прозрачность
+        setTimeout(() => {
+            splash.style.opacity = '0';
+            container.classList.add('loaded');
+            
+            // Полное удаление из DOM после окончания анимации
+            setTimeout(() => {
+                splash.style.display = 'none';
+            }, 600);
+        }, 2200);
+    });
+
+    // Управление вкладками
     function openTab(evt, tabName) {
         const tabContents = document.getElementsByClassName("tab-content");
         const tabBtns = document.getElementsByClassName("tab-btn");
 
-        // Убираем активные классы у кнопок
         for (let i = 0; i < tabBtns.length; i++) {
             tabBtns[i].classList.remove("active");
         }
         evt.currentTarget.classList.add("active");
 
-        // Плавное скрытие текущей вкладки и показ новой
         for (let i = 0; i < tabContents.length; i++) {
             if (tabContents[i].classList.contains("visible")) {
                 tabContents[i].classList.remove("visible");
                 setTimeout(() => {
                     tabContents[i].classList.remove("active");
-                }, 200); // время на скрытие
+                }, 150);
             }
         }
 
         setTimeout(() => {
             const nextTab = document.getElementById(tabName);
             nextTab.classList.add("active");
-            // Небольшой таймаут для запуска CSS анимации
             setTimeout(() => {
                 nextTab.classList.add("visible");
-            }, 50);
-        }, 200);
+            }, 40);
+        }, 150);
     }
-    
-    // Инициализация при первой загрузке
-    document.addEventListener("DOMContentLoaded", () => {
-        document.getElementById('firmware').classList.add('visible');
-    });
+
+    // Смена темы (светлая / темная)
+    function toggleTheme() {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        if (currentTheme === 'dark') {
+            document.documentElement.removeAttribute('data-theme');
+            localStorage.setItem('theme', 'light');
+        } else {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            localStorage.setItem('theme', 'dark');
+        }
+    }
+
+    // Проверка сохраненной темы при загрузке
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+    }
 </script>
 </body>
 </html>
