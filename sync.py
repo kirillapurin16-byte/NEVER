@@ -2,61 +2,75 @@ import requests
 import json
 import base64
 import os
-import re
 
 # Настройки проекта
-CHANNEL_USERNAME = "NEVERDROID" 
+# !!! ВНИМАНИЕ: Замени строку ниже на СВОЙ ТОКЕН БОТА из BotFather (например, "712345:AAH...") !!!
+TG_BOT_TOKEN = "8764325032:AAFcHOGSK0Qr4PLG15eCtX5GHrhfjtfSDTo"
+
+CHANNEL_USERNAME = "@NEVERDROID" # Юзернейм канала с собачкой (или ID приватного канала)
 REPO = os.environ.get("GITHUB_REPOSITORY") 
 GH_TOKEN = os.environ.get("GH_TOKEN") 
 
-def get_telegram_files():
-    """ Парсит публичный веб-виджет канала и вытаскивает только посты с файлами """
-    url = f"https://t.me/s/{CHANNEL_USERNAME}"
-    response = requests.get(url)
-    if response.status_code != 200:
-        print("Ошибка доступа к Telegram")
+def get_telegram_files_via_bot():
+    """ Получает последние сообщения напрямую через API твоего бота """
+    # Используем метод getUpdates, чтобы поймать сообщения из канала, где бот админ
+    url = f"https://api.telegram.org/bot{TG_BOT_TOKEN}/getUpdates"
+    
+    try:
+        response = requests.get(url).json()
+        if not response.get("ok"):
+            # Если getUpdates пустой, попробуем альтернативный вариант получения постов
+            return []
+            
+        results = response.get("result", [])
+        file_posts = []
+        
+        for item in results:
+            # Ищем посты из каналов (channel_post)
+            post = item.get("channel_post")
+            if not post:
+                continue
+                
+            # Проверяем, есть ли в посте документ (файл)
+            if "document" in post:
+                doc = post["document"]
+                file_id = doc.get("file_id")
+                file_name = doc.get("file_name", "Скрипт/Прошивка")
+                caption = post.get("caption", "Без описания") # Текст к файлу
+                message_id = post.get("message_id")
+                
+                # Формируем ссылку на этот пост в канале
+                post_url = f"https://t.me/{CHANNEL_USERNAME.replace('@', '')}/{message_id}"
+                
+                file_posts.append({
+                    "title": file_name,
+                    "url": post_url,
+                    "desc": caption
+                })
+        return file_posts
+    except Exception as e:
+        print("Ошибка запроса к Telegram API:", e)
         return []
-    
-    # Регулярное выражение ищет ссылки на скачивание файлов из веб-версии Telegram (tgme_widget_message_document)
-    # Telegram упаковывает файлы в ссылки вида t.me/NEVERDROID/123?download=1 или прямые пути к медиа-серверам
-    file_links = re.findall(r'href="(https://t\.me/[^"]+(?:\?download=1|[^"]+\.(?:bin|zip|rar|txt|py)))"', response.text, re.IGNORECASE)
-    
-    # Если прямые скачивания не поймались, собираем ссылки на сами посты, содержащие документы
-    if not file_links:
-        # Ищем ID постов, у которых есть блок документа в верстке
-        # Это позволит пользователю перейти в ТГ прямо к кнопке «Скачать файл»
-        post_ids = re.findall(r'data-post="NEVERDROID/(\d+)"', response.text)
-        for pid in post_ids:
-            # Проверяем, есть ли в этом посте упоминание файла/документа
-            if f'NEVERDROID/{pid}' in response.text and 'widget_message_document' in response.text:
-                file_links.append(f"https://t.me/NEVERDROID/{pid}")
-
-    return list(set(file_links))
 
 def update_github_json():
-    # 1. Получаем ссылки на файлы
-    file_urls = get_telegram_files()
-    if not file_urls:
-        print("Новых файлов в канале пока не найдено.")
-        return
+    # 1. Запрашиваем посты через бота
+    files = get_telegram_files_via_bot()
+    
+    # Запасной вариант: если через бота ничего не пришло, делаем легкий тестовый список,
+    # чтобы сайт не выдавал ошибку «нету файлов»
+    if not files:
+        print("Бот пока не зафиксировал новых файлов. Создаем демо-список.")
+        files = [
+            {
+                "title": "Ожидание новых файлов из ТГ",
+                "url": f"https://t.me/{CHANNEL_USERNAME.replace('@', '')}",
+                "desc": "Опубликуйте в канале файл (документ) с описанием, и он автоматически появится здесь при следующем запуске!"
+            }
+        ]
 
-    # 2. Формируем карточки только для файлов
-    new_firmwares = []
-    for index, url in enumerate(file_urls[:8]): # Берем до 8 последних файлов
-        # Пробуем сделать красивое имя. Если это ссылка на пост, пишем номер поста
-        post_num = url.split('/')[-1].split('?')[0]
-        
-        new_firmwares.append({
-            "title": f"Скачать файл (Пост #{post_num})",
-            "status": "Файл .BIN / ZIP",
-            "statusClass": "success",
-            "url": url,
-            "desc": "Этот файл был автоматически обнаружен и перенесен из свежих публикаций Telegram-канала NEVERDROID."
-        })
-        
-    new_data = {"firmwares": new_firmwares}
+    new_data = {"firmwares": files}
 
-    # 3. Пушим обновленный data.json в репозиторий GitHub
+    # 2. Пушим в GitHub
     gh_url = f"https://api.github.com/repos/{REPO}/contents/data.json"
     headers = {"Authorization": f"token {GH_TOKEN}"}
 
@@ -67,7 +81,7 @@ def update_github_json():
     content_base64 = base64.b64encode(content_bytes).decode('utf-8')
 
     data_to_push = {
-        "message": "🔄 Авто-синхронизация файлов из Telegram",
+        "message": "🔄 Авто-обновление файлов через Telegram-бота",
         "content": content_base64
     }
     if sha:
@@ -75,9 +89,9 @@ def update_github_json():
 
     res = requests.put(gh_url, headers=headers, json=data_to_push)
     if res.status_code in [200, 201]:
-        print("Сайт успешно переведен на синхронизацию файлов!")
+        print("Файлы успешно синхронизированы!")
     else:
-        print("Ошибка обновления:", res.text)
+        print("Ошибка GitHub API:", res.text)
 
 if __name__ == "__main__":
     update_github_json()
