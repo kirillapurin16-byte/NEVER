@@ -1,1 +1,285 @@
-S
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>M5Stick Plus 2 — прошивка, видео, гайды</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #f3eef9;
+            font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, sans-serif;
+            padding: 40px 20px;
+            color: #1e1a2f;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        /* карточки и секции в фиолетово-лавандовой гамме */
+        .section {
+            background: #ffffff;
+            border-radius: 32px;
+            padding: 28px 32px 38px;
+            margin-bottom: 40px;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2d6f0;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #4b2e7c;
+            margin-bottom: 28px;
+            padding-left: 14px;
+            border-left: 5px solid #9b6bdf;
+            letter-spacing: -0.3px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #ede7f6;
+            color: #5e3a9c;
+            padding: 4px 14px;
+            border-radius: 30px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-bottom: 18px;
+        }
+
+        /* методы прошивки */
+        .methods-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+            justify-content: center;
+            margin: 20px 0 20px;
+        }
+
+        .card {
+            background: #faf8ff;
+            border-radius: 28px;
+            padding: 24px;
+            width: 100%;
+            max-width: 310px;
+            border: 1px solid #d9caf2;
+            transition: all 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            border-color: #b794f4;
+            box-shadow: 0 12px 20px -8px rgba(100, 70, 150, 0.15);
+        }
+
+        .card-title {
+            font-size: 1.45rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            color: #2d2742;
+        }
+
+        .status {
+            font-size: 0.7rem;
+            padding: 4px 12px;
+            border-radius: 40px;
+            font-weight: 500;
+        }
+        .status.success {
+            background: #e0f2e9;
+            color: #1f7840;
+            border: 1px solid #b8e0c8;
+        }
+        .status.warning {
+            background: #fff0db;
+            color: #b45f1b;
+            border: 1px solid #ffe0b5;
+        }
+
+        .url {
+            background: #f3effa;
+            padding: 10px 14px;
+            border-radius: 18px;
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 0.85rem;
+            margin: 18px 0;
+            word-break: break-all;
+        }
+        .url a {
+            color: #6d4fc7;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .url a:hover {
+            text-decoration: underline;
+            color: #3b1e77;
+        }
+
+        .problem {
+            font-size: 0.8rem;
+            margin-top: 14px;
+            padding-top: 12px;
+            border-top: 1px solid #e5daf5;
+            color: #a1622c;
+        }
+
+        /* видео сетка */
+        .video-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+            margin: 25px 0 10px;
+        }
+        .video-card {
+            background: #fcfaff;
+            border-radius: 28px;
+            padding: 20px 22px;
+            flex: 1;
+            min-width: 240px;
+            border: 1px solid #ddd0f0;
+            transition: 0.2s;
+        }
+        .video-card:hover {
+            border-color: #b794f4;
+            background: #fff;
+        }
+        .video-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2b1f44;
+            margin-bottom: 14px;
+        }
+        .video-link {
+            background: #ede4ff;
+            padding: 10px 20px;
+            border-radius: 44px;
+            text-decoration: none;
+            color: #4a2c8c;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.2s;
+        }
+        .video-link:hover {
+            background: #ddd0ff;
+            color: #2c1c5a;
+        }
+
+        .divider-light {
+            height: 1px;
+            background: #e2d6f0;
+            margin: 28px 0 18px;
+        }
+
+        .conclusion {
+            background: #f9f5ff;
+            border-radius: 28px;
+            padding: 24px 28px;
+            text-align: center;
+            margin-top: 30px;
+            border: 1px solid #d7c7f0;
+        }
+        .conclusion h3 {
+            font-size: 1.4rem;
+            color: #472e7a;
+            font-weight: 600;
+        }
+
+        footer {
+            text-align: center;
+            font-size: 0.75rem;
+            color: #8d7aaa;
+            margin-top: 45px;
+        }
+
+        @media (max-width: 780px) {
+            .section { padding: 22px 20px; }
+            .section-title { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <!-- БЛОК 1: ПРОШИВКА -->
+    <div class="section">
+        <div class="badge">FIRMWARE · M5STICK PLUS 2</div>
+        <div class="section-title">Прошивка — проверенные способы</div>
+        <div class="methods-grid">
+            <div class="card">
+                <div class="card-title">M5Flasher <span class="status success">100%</span></div>
+                <div class="url"><a href="https://m5flasher.github.io" target="_blank">m5flasher.github.io</a></div>
+                <div class="desc" style="font-size:0.85rem; color:#3a2f56;">Онлайн-прошивка из браузера, порт и прошивка в один клик.</div>
+                <div class="problem">Максимальная версия прошивки — 1.11</div>
+            </div>
+            <div class="card">
+                <div class="card-title">M5Burner <span class="status success">100%</span></div>
+                <div class="url"><a href="https://docs.m5stack.com/en/uiflow/m5burner/intro" target="_blank">docs.m5stack.com / m5burner</a></div>
+                <div class="desc" style="font-size:0.85rem; color:#3a2f56;">Официальное приложение (Win/Mac/Linux): прошивка, сброс, бэкап.</div>
+            </div>
+            <div class="card">
+                <div class="card-title">Bruce <span class="status warning">~50%</span></div>
+                <div class="url"><a href="https://bruce.computer" target="_blank">bruce.computer</a></div>
+                <div class="desc" style="font-size:0.85rem; color:#3a2f56;">Прошивки, исходники, документация.</div>
+                <div class="problem">Совместимость частичная, нестабильно</div>
+            </div>
+        </div>
+        <div class="conclusion" style="margin-top: 20px;">
+            <h3>Вывод</h3>
+            <p style="margin-top: 6px;">✔️ Используйте <strong>M5Flasher</strong> или <strong>M5Burner</strong> — гарантированная работа.</p>
+        </div>
+    </div>
+
+    <!-- БЛОК 2: ПЕРВЫЕ ДВА ВИДЕО (модули + сравнение) -->
+    <div class="section">
+        <div class="badge">ВИДЕО · ОБЗОРЫ</div>
+        <div class="section-title">Сделал для вас 2 видео</div>
+        <div class="video-grid">
+            <div class="video-card">
+                <div class="video-title">Объяснил про модули</div>
+                <a class="video-link" href="https://vt.tiktok.com/ZSHC1CCmr/" target="_blank">Смотреть видео →</a>
+            </div>
+            <div class="video-card">
+                <div class="video-title">Сравнение: Flipper Zero, T-Embed, M5Stick C Plus 2, M5Stick S3</div>
+                <a class="video-link" href="https://vt.tiktok.com/ZSHC1gHh7/" target="_blank">Смотреть видео →</a>
+            </div>
+        </div>
+        <div class="divider-light"></div>
+        <div style="font-size:0.85rem; color:#54467a;">+ отличия M5Stick S3 от базового M5Stick</div>
+    </div>
+
+    <!-- БЛОК 3: ЗАГРУЗКА ФАЙЛОВ (ПК / ТЕЛЕФОН) — ТОЛЬКО ССЫЛКИ, БЕЗ ЛИШНЕГО ТЕКСТА -->
+    <div class="section">
+        <div class="badge">ФАЙЛЫ · ПЕРЕДАЧА</div>
+        <div class="section-title">Как закинуть файл на M5Stick</div>
+        <div class="video-grid" style="margin-bottom: 0;">
+            <div class="video-card">
+                <div class="video-title">Через телефон</div>
+                <a class="video-link" href="https://vt.tiktok.com/ZS9UEjYDh/" target="_blank">Ссылка (телефон) →</a>
+            </div>
+            <div class="video-card">
+                <div class="video-title">Через ПК</div>
+                <a class="video-link" href="https://vt.tiktok.com/ZS9UEyvwx/" target="_blank">Ссылка (ПК) →</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- итог / подпись -->
+    <footer>
+        M5Stick Plus 2 | всё в одном месте: прошивка, обзоры, загрузка файлов
+    </footer>
+</div>
+</body>
+</html>
