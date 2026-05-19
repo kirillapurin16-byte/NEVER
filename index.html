@@ -103,7 +103,7 @@
             }
         }
 
-        /* Основной контейнер (скрыт изначально для плавности) */
+        /* Основной контейнер */
         .container {
             max-width: 1100px;
             margin: 0 auto;
@@ -387,18 +387,35 @@
             margin-bottom: 6px;
         }
 
-        /* Поддержка */
+        /* Двойная сетка поддержки */
+        .support-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+            margin-top: 20px;
+        }
+
         .support-card {
             background: var(--card-bg);
             border: 1px solid var(--card-border);
             border-radius: 28px;
-            padding: 32px;
+            padding: 28px;
             text-align: center;
-            max-width: 500px;
-            margin: 0 auto;
+            flex: 1;
+            min-width: 280px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .support-card-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--title-color);
+            margin-bottom: 12px;
         }
         .support-text {
-            font-size: 1rem;
+            font-size: 0.9rem;
             color: var(--desc-color);
             margin-bottom: 24px;
             line-height: 1.5;
@@ -407,12 +424,15 @@
             display: inline-block;
             background: #9b6bdf;
             color: #ffffff;
-            padding: 14px 32px;
+            padding: 12px 28px;
             border-radius: 44px;
             text-decoration: none;
             font-weight: 600;
             transition: all 0.3s ease;
-            box-shadow: 0 6px 16px rgba(155, 107, 223, 0.2);
+            font-size: 0.9rem;
+            box-shadow: 0 6px 16px rgba(155, 107, 223, 0.15);
+            width: 100%;
+            max-width: 240px;
         }
         .tg-btn:hover {
             background: #8452c9;
@@ -446,10 +466,10 @@
                 font-size: 1.45rem; 
                 margin-bottom: 20px;
             }
-            .methods-grid, .video-grid {
+            .methods-grid, .video-grid, .support-grid {
                 gap: 16px;
             }
-            .card, .video-card {
+            .card, .video-card, .support-card {
                 max-width: 100%;
                 border-radius: 20px;
             }
@@ -579,12 +599,29 @@
     <!-- ВКЛАДКА 4: ПОДДЕРЖКА -->
     <div id="support" class="tab-content">
         <div class="section">
-            <div class="badge">ПОДДЕРЖКА · СВЯЗЬ</div>
-            <div class="section-title">Помощь и поддержка сообщества</div>
-            <div class="support-card">
-                <p class="support-text">Возникли трудности при установке, не подключается порт или нашли баг в прошивке? Задавайте любые вопросы в нашем официальном чате NEVERDROID.</p>
-                <a href="https://t.me/NEVERDROID" target="_blank" class="tg-btn">Перейти в NEVERDROID</a>
+            <div class="badge">РЕСУРСЫ · ПОДДЕРЖКА</div>
+            <div class="section-title">Информационные ресурсы и контакты</div>
+            
+            <div class="support-grid">
+                <!-- Карта инфоресурса NEVERDROID -->
+                <div class="support-card">
+                    <div>
+                        <div class="support-card-title">Скрипты и Прошивки</div>
+                        <p class="support-text">Все свежие файлы, инструкции, скрипты автоматизации и готовые сборки публикуются на официальном канале сообщества.</p>
+                    </div>
+                    <a href="https://t.me/NEVERDROID" target="_blank" class="tg-btn">Канал NEVERDROID</a>
+                </div>
+
+                <!-- Карта личной помощи Wortiix -->
+                <div class="support-card">
+                    <div>
+                        <div class="support-card-title">Техническая Помощь</div>
+                        <p class="support-text">Если в процессе прошивки что-то пошло не так, не определяется порт или возникли индивидуальные проблемы — пишите мне напрямую.</p>
+                    </div>
+                    <a href="https://t.me/wortiix" target="_blank" class="tg-btn">Написать Wortiix</a>
+                </div>
             </div>
+
         </div>
     </div>
 
@@ -600,12 +637,10 @@
         const splash = document.getElementById('splash-screen');
         const container = document.getElementById('main-container');
         
-        // Время показа заставки: 2.2 секунды, затем уход в прозрачность
         setTimeout(() => {
             splash.style.opacity = '0';
             container.classList.add('loaded');
             
-            // Полное удаление из DOM после окончания анимации
             setTimeout(() => {
                 splash.style.display = 'none';
             }, 600);
