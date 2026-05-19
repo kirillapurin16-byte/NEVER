@@ -482,7 +482,7 @@
 <div id="splash-screen">
     <div class="splash-content">
         <h1 class="splash-title">NEVERDROID</h1>
-        <p class="splash-subtitle">Здравствуйте! Вас приветствует команда ТГК NEVERDROID. Не стесняйтесь переходить в наш чат и задавать любые вопросы.</p>
+        <p class="splash-subtitle">Здравствуйте! Вас приветствует команда ТГК NEVERDROID. По поводу скриптов и прошивок — вы на верном пути, а Wortiix всегда готов помочь вам в поддержке.</p>
     </div>
 </div>
 
@@ -632,6 +632,17 @@
 </div>
 
 <script>
+    // АВТОМАТИЧЕСКОЕ ОБНОВЛЕНИЕ СТРАНИЦЫ ПРИ КАЖДОМ НОВОМ ЗАХОДЕ
+    (function() {
+        // Если в текущей сессии вкладки еще нет метки об обновлении
+        if (!sessionStorage.getItem('pageRefreshed')) {
+            // Ставим метку, чтобы не уйти в бесконечный цикл перезагрузок
+            sessionStorage.setItem('pageRefreshed', 'true');
+            // Перезагружаем страницу с сервера, игнорируя локальный кэш
+            window.location.reload();
+        }
+    })();
+
     // Управление экраном приветствия
     window.addEventListener('DOMContentLoaded', () => {
         const splash = document.getElementById('splash-screen');
