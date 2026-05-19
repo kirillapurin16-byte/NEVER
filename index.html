@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>M5Stick Plus 2 — NEVERDROID</title>
     <style>
-        /* Базовые переменные для светлой темы */
+        /* Переменные для светлой темы */
         :root {
             --bg-color: #f3eef9;
             --text-color: #1e1a2f;
@@ -97,10 +97,7 @@
         }
 
         @keyframes splashFadeIn {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         /* Основной контейнер */
@@ -117,7 +114,6 @@
             transform: translateY(0);
         }
 
-        /* Шапка с переключателем темы */
         .header-actions {
             display: flex;
             justify-content: space-between;
@@ -126,7 +122,6 @@
             gap: 16px;
         }
 
-        /* Навигация вкладок */
         .tabs-nav {
             display: flex;
             gap: 12px;
@@ -135,9 +130,7 @@
             scrollbar-width: none;
         }
 
-        .tabs-nav::-webkit-scrollbar {
-            display: none;
-        }
+        .tabs-nav::-webkit-scrollbar { display: none; }
 
         .tab-btn {
             background: var(--section-bg);
@@ -153,9 +146,7 @@
             box-shadow: 0 4px 12px var(--shadow);
         }
 
-        .tab-btn:hover {
-            border-color: #b794f4;
-        }
+        .tab-btn:hover { border-color: #b794f4; }
 
         .tab-btn.active {
             background: #9b6bdf;
@@ -164,7 +155,6 @@
             box-shadow: 0 8px 20px rgba(155, 107, 223, 0.25);
         }
 
-        /* Переключатель темы */
         .theme-toggle-btn {
             background: var(--section-bg);
             border: 1px solid var(--border-color);
@@ -178,11 +168,8 @@
             box-shadow: 0 4px 12px var(--shadow);
         }
 
-        .theme-toggle-btn:hover {
-            border-color: #b794f4;
-        }
+        .theme-toggle-btn:hover { border-color: #b794f4; }
 
-        /* Контент вкладок */
         .tab-content {
             display: none;
             opacity: 0;
@@ -191,22 +178,16 @@
             transition: opacity 0.4s cubic-bezier(0.25, 1, 0.5, 1), transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
-        .tab-content.active {
-            display: block;
-        }
-        
-        .tab-content.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        .tab-content.active { display: block; }
+        .tab-content.visible { opacity: 1; transform: translateY(0); }
 
-        /* Секции и карточки */
         .section {
             background: var(--section-bg);
             border-radius: 32px;
             padding: 32px;
             box-shadow: 0 12px 28px var(--shadow);
             border: 1px solid var(--border-color);
+            margin-bottom: 24px;
         }
 
         .section-title {
@@ -230,8 +211,7 @@
             margin-bottom: 18px;
         }
 
-        /* Сетки */
-        .methods-grid, .video-grid {
+        .methods-grid, .video-grid, .support-grid {
             display: flex;
             flex-wrap: wrap;
             gap: 24px;
@@ -260,7 +240,7 @@
         }
 
         .card-title {
-            font-size: 1.45rem;
+            font-size: 1.35rem;
             font-weight: 600;
             margin-bottom: 16px;
             display: flex;
@@ -275,16 +255,8 @@
             border-radius: 40px;
             font-weight: 500;
         }
-        .status.success {
-            background: #e0f2e9;
-            color: #1f7840;
-            border: 1px solid #b8e0c8;
-        }
-        .status.warning {
-            background: #fff0db;
-            color: #b45f1b;
-            border: 1px solid #ffe0b5;
-        }
+        .status.success { background: #e0f2e9; color: #1f7840; border: 1px solid #b8e0c8; }
+        .status.telegram { background: #e3f2fd; color: #0d47a1; border: 1px solid #bbdefb; }
 
         .url {
             background: var(--url-bg);
@@ -295,31 +267,11 @@
             margin: 14px 0;
             word-break: break-all;
         }
-        .url a {
-            color: var(--url-link);
-            text-decoration: none;
-            font-weight: 500;
-        }
-        .url a:hover {
-            text-decoration: underline;
-        }
+        .url a { color: var(--url-link); text-decoration: none; font-weight: 500; }
+        .url a:hover { text-decoration: underline; }
 
-        .card-desc {
-            font-size: 0.85rem;
-            color: var(--desc-color);
-            line-height: 1.4;
-            flex-grow: 1;
-        }
+        .card-desc { font-size: 0.85rem; color: var(--desc-color); line-height: 1.4; flex-grow: 1; }
 
-        .problem {
-            font-size: 0.8rem;
-            margin-top: 14px;
-            padding-top: 12px;
-            border-top: 1px solid var(--border-color);
-            color: #a1622c;
-        }
-
-        /* Видео карточки */
         .video-card {
             background: var(--video-card-bg);
             border-radius: 28px;
@@ -333,17 +285,9 @@
             justify-content: space-between;
             gap: 16px;
         }
-        .video-card:hover {
-            border-color: #b794f4;
-            transform: translateY(-3px);
-            box-shadow: 0 12px 24px -8px rgba(100, 70, 150, 0.1);
-        }
-        .video-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: var(--text-color);
-            line-height: 1.4;
-        }
+        .video-card:hover { border-color: #b794f4; transform: translateY(-3px); box-shadow: 0 12px 24px -8px rgba(100, 70, 150, 0.1); }
+        .video-title { font-size: 1.25rem; font-weight: 600; color: var(--text-color); line-height: 1.4; }
+        
         .video-link {
             background: var(--video-link-bg);
             padding: 12px 24px;
@@ -357,43 +301,7 @@
             transition: opacity 0.2s;
             font-size: 0.9rem;
         }
-        .video-link:hover {
-            opacity: 0.9;
-        }
-
-        .divider-light {
-            height: 1px;
-            background: var(--border-color);
-            margin: 28px 0 18px;
-        }
-
-        .info-note {
-            font-size: 0.9rem;
-            color: var(--desc-color);
-        }
-
-        .conclusion {
-            background: var(--card-bg);
-            border-radius: 28px;
-            padding: 24px 28px;
-            text-align: center;
-            margin-top: 24px;
-            border: 1px solid var(--border-color);
-        }
-        .conclusion h3 {
-            font-size: 1.4rem;
-            color: var(--title-color);
-            font-weight: 600;
-            margin-bottom: 6px;
-        }
-
-        /* Двойная сетка поддержки */
-        .support-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 24px;
-            margin-top: 20px;
-        }
+        .video-link:hover { opacity: 0.9; }
 
         .support-card {
             background: var(--card-bg);
@@ -408,18 +316,9 @@
             justify-content: space-between;
             align-items: center;
         }
-        .support-card-title {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: var(--title-color);
-            margin-bottom: 12px;
-        }
-        .support-text {
-            font-size: 0.9rem;
-            color: var(--desc-color);
-            margin-bottom: 24px;
-            line-height: 1.5;
-        }
+        .support-card-title { font-size: 1.3rem; font-weight: 600; color: var(--title-color); margin-bottom: 12px; }
+        .support-text { font-size: 0.9rem; color: var(--desc-color); margin-bottom: 24px; line-height: 1.5; }
+        
         .tg-btn {
             display: inline-block;
             background: #9b6bdf;
@@ -434,131 +333,76 @@
             width: 100%;
             max-width: 240px;
         }
-        .tg-btn:hover {
-            background: #8452c9;
-            transform: translateY(-2px);
-        }
+        .tg-btn:hover { background: #8452c9; transform: translateY(-2px); }
 
-        footer {
-            text-align: center;
-            font-size: 0.8rem;
-            color: var(--desc-color);
-            margin-top: 45px;
-            padding: 20px 0;
-        }
+        footer { text-align: center; font-size: 0.8rem; color: var(--desc-color); margin-top: 45px; padding: 20px 0; }
 
         @media (max-width: 768px) {
-            body {
-                padding: 20px 12px;
-            }
-            .header-actions {
-                flex-direction: column-reverse;
-                align-items: stretch;
-            }
-            .theme-toggle-btn {
-                text-align: center;
-            }
-            .section { 
-                padding: 24px 20px; 
-                border-radius: 24px;
-            }
-            .section-title { 
-                font-size: 1.45rem; 
-                margin-bottom: 20px;
-            }
-            .methods-grid, .video-grid, .support-grid {
-                gap: 16px;
-            }
-            .card, .video-card, .support-card {
-                max-width: 100%;
-                border-radius: 20px;
-            }
+            body { padding: 20px 12px; }
+            .header-actions { flex-direction: column-reverse; align-items: stretch; }
+            .theme-toggle-btn { text-align: center; }
+            .section { padding: 24px 20px; border-radius: 24px; }
+            .section-title { font-size: 1.45rem; margin-bottom: 20px; }
+            .methods-grid, .video-grid, .support-grid { gap: 16px; }
+            .card, .video-card, .support-card { max-width: 100%; border-radius: 20px; }
         }
     </style>
 </head>
 <body>
 
-<!-- ЭКРАН ПРИВЕТСТВИЯ -->
 <div id="splash-screen">
     <div class="splash-content">
         <h1 class="splash-title">NEVERDROID</h1>
-        <p class="splash-subtitle">Здравствуйте! Вас приветствует команда ТГК NEVERDROID. По поводу скриптов и прошивок — вы на верном пути, а Wortiix всегда готов помочь вам в поддержке.</p>
+        <p class="splash-subtitle">Здравствуйте! Вас приветствует команда ТГК NEVERDROID. Все файлы и прошивки синхронизируются автоматически.</p>
     </div>
 </div>
 
-<!-- ОСНОВНОЙ КОНТЕНТ -->
 <div class="container" id="main-container">
 
-    <!-- НАВИГАЦИЯ И СМЕНА ТЕМЫ -->
     <div class="header-actions">
         <div class="tabs-nav">
-            <button class="tab-btn active" onclick="openTab(event, 'firmware')">Прошивка</button>
+            <button class="tab-btn active" onclick="openTab(event, 'firmware')">Прошивки и Скрипты</button>
             <button class="tab-btn" onclick="openTab(event, 'reviews')">Обзоры</button>
             <button class="tab-btn" onclick="openTab(event, 'files')">Передача файлов</button>
-            <button class="tab-btn" onclick="openTab(event, 'support')">Помощь и поддержка</button>
+            <button class="tab-btn" onclick="openTab(event, 'support')">Поддержка</button>
         </div>
         <button class="theme-toggle-btn" onclick="toggleTheme()" id="theme-btn">Сменить тему</button>
     </div>
 
-    <!-- ВКЛАДКА 1: ПРОШИВКА -->
     <div id="firmware" class="tab-content active visible">
+        
         <div class="section">
-            <div class="badge">FIRMWARE · M5STICK PLUS 2</div>
-            <div class="section-title">Прошивка — проверенные способы и дистрибутивы</div>
+            <div class="badge" style="background: #e3f2fd; color: #0d47a1;">LIVE СИНХРОНИЗАЦИЯ</div>
+            <div class="section-title">Свежие файлы из Telegram-канала NEVERDROID</div>
+            
+            <div class="methods-grid" id="telegram-files-grid">
+                <p style="padding: 20px; color: var(--desc-color);">Синхронизация с каналом, подождите...</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="badge">BASE TOOLS</div>
+            <div class="section-title">Официальный софт для прошивки</div>
             <div class="methods-grid">
                 <div class="card">
                     <div>
                         <div class="card-title">M5Flasher <span class="status success">100%</span></div>
                         <div class="url"><a href="https://m5flasher.github.io" target="_blank">m5flasher.github.io</a></div>
-                        <div class="card-desc">Онлайн-прошивка из браузера, автоматическое определение порта в один клик.</div>
+                        <div class="card-desc">Онлайн-прошивка из браузера, автоматическое определение портов.</div>
                     </div>
-                    <div class="problem">Максимальная версия прошивки — 1.11</div>
                 </div>
                 <div class="card">
                     <div>
                         <div class="card-title">M5Burner <span class="status success">100%</span></div>
                         <div class="url"><a href="https://docs.m5stack.com/en/uiflow/m5burner/intro" target="_blank">docs.m5stack.com</a></div>
-                        <div class="card-desc">Официальный софт на ПК (Win/Mac/Linux). Идеально для бэкапов и полной очистки памяти.</div>
+                        <div class="card-desc">Официальная ПК-утилита для бэкапов и глубокой очистки памяти M5Stick.</div>
                     </div>
                 </div>
-                <div class="card">
-                    <div>
-                        <div class="card-title">Marauder <span class="status success">Пакетный</span></div>
-                        <div class="url"><a href="https://github.com/justcallmekoko/ESP32Marauder" target="_blank">github.com / marauder</a></div>
-                        <div class="card-desc">Легендарный инструмент анализа Wi-Fi и Bluetooth сетей, адаптированный под M5Stick.</div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div>
-                        <div class="card-title">Nemo <span class="status success">Стабильно</span></div>
-                        <div class="url"><a href="https://github.com/nemo-firmware" target="_blank">github.com / nemo</a></div>
-                        <div class="card-desc">Многофункциональный интерфейс со встроенными утилитами для тестирования радиочастот.</div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div>
-                        <div class="card-title">CatSniffer <span class="status success">Тест</span></div>
-                        <div class="url"><a href="https://github.com/RoganDawes/CatSniffer" target="_blank">github.com / catsniffer</a></div>
-                        <div class="card-desc">Специализированная прошивка для сниффинга и анализа пакетов протоколов связи.</div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div>
-                        <div class="card-title">Bruce <span class="status warning">~50%</span></div>
-                        <div class="url"><a href="https://bruce.computer" target="_blank">bruce.computer</a></div>
-                        <div class="card-desc">Альтернативная прошивка, открытый исходный код и кастомная документация.</div>
-                    </div>
-                    <div class="problem">Совместимость частичная, может работать нестабильно</div>
-                </div>
-            </div>
-            <div class="conclusion">
-                <h3>Вывод</h3>
-                <p>Используйте базовые утилиты M5Flasher или M5Burner для заливки Marauder и Nemo.</p>
             </div>
         </div>
+
     </div>
 
-    <!-- ВКЛАДКА 2: ОБЗОРЫ -->
     <div id="reviews" class="tab-content">
         <div class="section">
             <div class="badge">ВИДЕО · ОБЗОРЫ</div>
@@ -573,12 +417,9 @@
                     <a class="video-link" href="https://vt.tiktok.com/ZSHC1gHh7/" target="_blank">Смотреть видео</a>
                 </div>
             </div>
-            <div class="divider-light"></div>
-            <div class="info-note">плюс отличия M5Stick S3 от базового M5Stick</div>
         </div>
     </div>
 
-    <!-- ВКЛАДКА 3: ФАЙЛЫ -->
     <div id="files" class="tab-content">
         <div class="section">
             <div class="badge">ФАЙЛЫ · ПЕРЕДАЧА</div>
@@ -596,97 +437,108 @@
         </div>
     </div>
 
-    <!-- ВКЛАДКА 4: ПОДДЕРЖКА -->
     <div id="support" class="tab-content">
         <div class="section">
             <div class="badge">РЕСУРСЫ · ПОДДЕРЖКА</div>
             <div class="section-title">Информационные ресурсы и контакты</div>
-            
             <div class="support-grid">
-                <!-- Карта инфоресурса NEVERDROID -->
                 <div class="support-card">
                     <div>
                         <div class="support-card-title">Скрипты и Прошивки</div>
-                        <p class="support-text">Все свежие файлы, инструкции, скрипты автоматизации и готовые сборки публикуются на официальном канале сообщества.</p>
+                        <p class="support-text">Все свежие файлы публикуются на официальном канале сообщества.</p>
                     </div>
                     <a href="https://t.me/NEVERDROID" target="_blank" class="tg-btn">Канал NEVERDROID</a>
                 </div>
-
-                <!-- Карта личной помощи Wortiix -->
                 <div class="support-card">
                     <div>
                         <div class="support-card-title">Техническая Помощь</div>
-                        <p class="support-text">Если в процессе прошивки что-то пошло не так, не определяется порт или возникли индивидуальные проблемы — пишите мне напрямую.</p>
+                        <p class="support-text">Если возникли индивидуальные проблемы — пишите мне напрямую.</p>
                     </div>
                     <a href="https://t.me/wortiix" target="_blank" class="tg-btn">Написать Wortiix</a>
                 </div>
             </div>
-
         </div>
     </div>
 
-    <!-- ИТОГ / ПОДПИСЬ -->
     <footer>
         NEVERDROID | Всё для M5Stick Plus 2 в одном месте
     </footer>
 </div>
 
 <script>
-    // АВТОМАТИЧЕСКОЕ ОБНОВЛЕНИЕ СТРАНИЦЫ ПРИ КАЖДОМ НОВОМ ЗАХОДЕ
-    (function() {
-        // Если в текущей сессии вкладки еще нет метки об обновлении
-        if (!sessionStorage.getItem('pageRefreshed')) {
-            // Ставим метку, чтобы не уйти в бесконечный цикл перезагрузок
-            sessionStorage.setItem('pageRefreshed', 'true');
-            // Перезагружаем страницу с сервера, игнорируя локальный кэш
-            window.location.reload();
-        }
-    })();
+    // Подгрузка файлов из data.json, созданного роботом-парсером
+    async function loadTelegramFiles() {
+        const grid = document.getElementById('telegram-files-grid');
+        try {
+            const response = await fetch('data.json?v=' + Date.now());
+            if (!response.ok) throw new Error();
+            
+            const data = await response.json();
+            
+            // Если файлов нет или массив пуст
+            if (!data.firmwares || data.firmwares.length === 0) {
+                grid.innerHTML = `<p style="padding: 20px; color: var(--desc-color);">В канале пока нет опубликованных файлов скриптов.</p>`;
+                return;
+            }
 
-    // Управление экраном приветствия
+            grid.innerHTML = ''; // Очищаем спиннер загрузки
+
+            data.firmwares.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                
+                // Проверяем: если описание (desc) пустое или отсутствует, не выводим тег
+                let descHTML = (item.desc && item.desc.trim() !== "") ? `<div class="card-desc">${item.desc}</div>` : '';
+                
+                card.innerHTML = `
+                    <div>
+                        <div class="card-title">${item.title} <span class="status telegram">Файл</span></div>
+                        <div class="url"><a href="${item.url}" target="_blank">Открыть в Telegram</a></div>
+                        ${descHTML}
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        } catch (error) {
+            grid.innerHTML = `<p style="padding: 20px; color: var(--desc-color);">Файлы обновляются. Как только робот совершит первый обход канала, они появятся здесь.</p>`;
+        }
+    }
+
+    // Инициализация
     window.addEventListener('DOMContentLoaded', () => {
+        loadTelegramFiles();
+
         const splash = document.getElementById('splash-screen');
         const container = document.getElementById('main-container');
         
         setTimeout(() => {
             splash.style.opacity = '0';
             container.classList.add('loaded');
-            
-            setTimeout(() => {
-                splash.style.display = 'none';
-            }, 600);
+            setTimeout(() => { splash.style.display = 'none'; }, 600);
         }, 2200);
     });
 
-    // Управление вкладками
     function openTab(evt, tabName) {
         const tabContents = document.getElementsByClassName("tab-content");
         const tabBtns = document.getElementsByClassName("tab-btn");
 
-        for (let i = 0; i < tabBtns.length; i++) {
-            tabBtns[i].classList.remove("active");
-        }
+        for (let i = 0; i < tabBtns.length; i++) { tabBtns[i].classList.remove("active"); }
         evt.currentTarget.classList.add("active");
 
         for (let i = 0; i < tabContents.length; i++) {
             if (tabContents[i].classList.contains("visible")) {
                 tabContents[i].classList.remove("visible");
-                setTimeout(() => {
-                    tabContents[i].classList.remove("active");
-                }, 150);
+                setTimeout(() => { tabContents[i].classList.remove("active"); }, 150);
             }
         }
 
         setTimeout(() => {
             const nextTab = document.getElementById(tabName);
             nextTab.classList.add("active");
-            setTimeout(() => {
-                nextTab.classList.add("visible");
-            }, 40);
+            setTimeout(() => { nextTab.classList.add("visible"); }, 40);
         }, 150);
     }
 
-    // Смена темы (светлая / темная)
     function toggleTheme() {
         const currentTheme = document.documentElement.getAttribute('data-theme');
         if (currentTheme === 'dark') {
@@ -698,11 +550,8 @@
         }
     }
 
-    // Проверка сохраненной темы при загрузке
     const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark') {
-        document.documentElement.setAttribute('data-theme', 'dark');
-    }
+    if (savedTheme === 'dark') { document.documentElement.setAttribute('data-theme', 'dark'); }
 </script>
 </body>
 </html>
