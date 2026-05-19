@@ -23,12 +23,73 @@
             margin: 0 auto;
         }
 
-        /* карточки и секции в фиолетово-лавандовой гамме */
+        /* Навигация вкладок */
+        .tabs-nav {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+            scrollbar-width: none; /* Скрываем скроллбар в Firefox */
+        }
+
+        /* Скрываем скроллбар в Chrome/Safari */
+        .tabs-nav::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tab-btn {
+            background: #ffffff;
+            color: #5e3a9c;
+            border: 1px solid #e2d6f0;
+            padding: 12px 24px;
+            border-radius: 40px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+        }
+
+        .tab-btn:hover {
+            border-color: #b794f4;
+            background: #faf8ff;
+        }
+
+        .tab-btn.active {
+            background: #9b6bdf;
+            color: #ffffff;
+            border-color: #9b6bdf;
+            box-shadow: 0 8px 20px rgba(155, 107, 223, 0.3);
+        }
+
+        /* Контент вкладок */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.35s ease forwards;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Секции и карточки */
         .section {
             background: #ffffff;
             border-radius: 32px;
-            padding: 28px 32px 38px;
-            margin-bottom: 40px;
+            padding: 32px;
             box-shadow: 0 12px 28px rgba(0, 0, 0, 0.05);
             border: 1px solid #e2d6f0;
         }
@@ -54,23 +115,27 @@
             margin-bottom: 18px;
         }
 
-        /* методы прошивки */
+        /* Сетка методов прошивки */
         .methods-grid {
             display: flex;
             flex-wrap: wrap;
             gap: 24px;
-            justify-content: center;
-            margin: 20px 0 20px;
+            justify-content: flex-start;
+            margin: 20px 0;
         }
 
         .card {
             background: #faf8ff;
             border-radius: 28px;
             padding: 24px;
-            width: 100%;
-            max-width: 310px;
+            flex: 1;
+            min-width: 280px;
+            max-width: 340px;
             border: 1px solid #d9caf2;
             transition: all 0.2s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
         .card:hover {
@@ -85,8 +150,7 @@
             margin-bottom: 16px;
             display: flex;
             justify-content: space-between;
-            align-items: baseline;
-            flex-wrap: wrap;
+            align-items: center;
             color: #2d2742;
         }
 
@@ -113,7 +177,7 @@
             border-radius: 18px;
             font-family: 'SF Mono', 'Fira Code', monospace;
             font-size: 0.85rem;
-            margin: 18px 0;
+            margin: 14px 0;
             word-break: break-all;
         }
         .url a {
@@ -126,6 +190,13 @@
             color: #3b1e77;
         }
 
+        .card-desc {
+            font-size: 0.85rem;
+            color: #3a2f56;
+            line-height: 1.4;
+            flex-grow: 1;
+        }
+
         .problem {
             font-size: 0.8rem;
             margin-top: 14px;
@@ -134,7 +205,7 @@
             color: #a1622c;
         }
 
-        /* видео сетка */
+        /* Видео сетка */
         .video-grid {
             display: flex;
             flex-wrap: wrap;
@@ -144,33 +215,40 @@
         .video-card {
             background: #fcfaff;
             border-radius: 28px;
-            padding: 20px 22px;
+            padding: 24px;
             flex: 1;
-            min-width: 240px;
+            min-width: 280px;
             border: 1px solid #ddd0f0;
             transition: 0.2s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 16px;
         }
         .video-card:hover {
             border-color: #b794f4;
             background: #fff;
+            transform: translateY(-2px);
         }
         .video-title {
-            font-size: 1.2rem;
+            font-size: 1.25rem;
             font-weight: 600;
             color: #2b1f44;
-            margin-bottom: 14px;
+            line-height: 1.4;
         }
         .video-link {
             background: #ede4ff;
-            padding: 10px 20px;
+            padding: 12px 24px;
             border-radius: 44px;
             text-decoration: none;
             color: #4a2c8c;
-            font-weight: 500;
+            font-weight: 600;
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 8px;
             transition: 0.2s;
+            font-size: 0.9rem;
         }
         .video-link:hover {
             background: #ddd0ff;
@@ -183,103 +261,161 @@
             margin: 28px 0 18px;
         }
 
+        .info-note {
+            font-size: 0.9rem;
+            color: #54467a;
+        }
+
         .conclusion {
             background: #f9f5ff;
             border-radius: 28px;
             padding: 24px 28px;
             text-align: center;
-            margin-top: 30px;
+            margin-top: 24px;
             border: 1px solid #d7c7f0;
         }
         .conclusion h3 {
             font-size: 1.4rem;
             color: #472e7a;
             font-weight: 600;
+            margin-bottom: 6px;
         }
 
         footer {
             text-align: center;
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             color: #8d7aaa;
             margin-top: 45px;
+            padding: 20px 0;
         }
 
-        @media (max-width: 780px) {
-            .section { padding: 22px 20px; }
-            .section-title { font-size: 1.5rem; }
+        /* Адаптивность для мобильных */
+        @media (max-width: 768px) {
+            body {
+                padding: 20px 12px;
+            }
+            .section { 
+                padding: 24px 20px; 
+                border-radius: 24px;
+            }
+            .section-title { 
+                font-size: 1.45rem; 
+                margin-bottom: 20px;
+            }
+            .methods-grid, .video-grid {
+                gap: 16px;
+            }
+            .card, .video-card {
+                max-width: 100%;
+                border-radius: 20px;
+            }
         }
     </style>
 </head>
 <body>
 <div class="container">
 
-    <!-- БЛОК 1: ПРОШИВКА -->
-    <div class="section">
-        <div class="badge">FIRMWARE · M5STICK PLUS 2</div>
-        <div class="section-title">Прошивка — проверенные способы</div>
-        <div class="methods-grid">
-            <div class="card">
-                <div class="card-title">M5Flasher <span class="status success">100%</span></div>
-                <div class="url"><a href="https://m5flasher.github.io" target="_blank">m5flasher.github.io</a></div>
-                <div class="desc" style="font-size:0.85rem; color:#3a2f56;">Онлайн-прошивка из браузера, порт и прошивка в один клик.</div>
-                <div class="problem">Максимальная версия прошивки — 1.11</div>
-            </div>
-            <div class="card">
-                <div class="card-title">M5Burner <span class="status success">100%</span></div>
-                <div class="url"><a href="https://docs.m5stack.com/en/uiflow/m5burner/intro" target="_blank">docs.m5stack.com / m5burner</a></div>
-                <div class="desc" style="font-size:0.85rem; color:#3a2f56;">Официальное приложение (Win/Mac/Linux): прошивка, сброс, бэкап.</div>
-            </div>
-            <div class="card">
-                <div class="card-title">Bruce <span class="status warning">~50%</span></div>
-                <div class="url"><a href="https://bruce.computer" target="_blank">bruce.computer</a></div>
-                <div class="desc" style="font-size:0.85rem; color:#3a2f56;">Прошивки, исходники, документация.</div>
-                <div class="problem">Совместимость частичная, нестабильно</div>
-            </div>
-        </div>
-        <div class="conclusion" style="margin-top: 20px;">
-            <h3>Вывод</h3>
-            <p style="margin-top: 6px;">✔️ Используйте <strong>M5Flasher</strong> или <strong>M5Burner</strong> — гарантированная работа.</p>
-        </div>
+    <div class="tabs-nav">
+        <button class="tab-btn active" onclick="openTab(event, 'firmware')">🔌 Прошивка</button>
+        <button class="tab-btn" onclick="openTab(event, 'reviews')">🎥 Обзоры</button>
+        <button class="tab-btn" onclick="openTab(event, 'files')">📁 Передача файлов</button>
     </div>
 
-    <!-- БЛОК 2: ПЕРВЫЕ ДВА ВИДЕО (модули + сравнение) -->
-    <div class="section">
-        <div class="badge">ВИДЕО · ОБЗОРЫ</div>
-        <div class="section-title">Сделал для вас 2 видео</div>
-        <div class="video-grid">
-            <div class="video-card">
-                <div class="video-title">Объяснил про модули</div>
-                <a class="video-link" href="https://vt.tiktok.com/ZSHC1CCmr/" target="_blank">Смотреть видео →</a>
+    <div id="firmware" class="tab-content active">
+        <div class="section">
+            <div class="badge">FIRMWARE · M5STICK PLUS 2</div>
+            <div class="section-title">Прошивка — проверенные способы</div>
+            <div class="methods-grid">
+                <div class="card">
+                    <div>
+                        <div class="card-title">M5Flasher <span class="status success">100%</span></div>
+                        <div class="url"><a href="https://m5flasher.github.io" target="_blank">m5flasher.github.io</a></div>
+                        <div class="card-desc">Онлайн-прошивка из браузера, порт и прошивка в один клик.</div>
+                    </div>
+                    <div class="problem">Максимальная версия прошивки — 1.11</div>
+                </div>
+                <div class="card">
+                    <div>
+                        <div class="card-title">M5Burner <span class="status success">100%</span></div>
+                        <div class="url"><a href="https://docs.m5stack.com/en/uiflow/m5burner/intro" target="_blank">docs.m5stack.com / m5burner</a></div>
+                        <div class="card-desc">Официальное приложение (Win/Mac/Linux): прошивка, сброс, бэкап.</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div>
+                        <div class="card-title">Bruce <span class="status warning">~50%</span></div>
+                        <div class="url"><a href="https://bruce.computer" target="_blank">bruce.computer</a></div>
+                        <div class="card-desc">Прошивки, исходники, документация.</div>
+                    </div>
+                    <div class="problem">Совместимость частичная, нестабильно</div>
+                </div>
             </div>
-            <div class="video-card">
-                <div class="video-title">Сравнение: Flipper Zero, T-Embed, M5Stick C Plus 2, M5Stick S3</div>
-                <a class="video-link" href="https://vt.tiktok.com/ZSHC1gHh7/" target="_blank">Смотреть видео →</a>
-            </div>
-        </div>
-        <div class="divider-light"></div>
-        <div style="font-size:0.85rem; color:#54467a;">+ отличия M5Stick S3 от базового M5Stick</div>
-    </div>
-
-    <!-- БЛОК 3: ЗАГРУЗКА ФАЙЛОВ (ПК / ТЕЛЕФОН) — ТОЛЬКО ССЫЛКИ, БЕЗ ЛИШНЕГО ТЕКСТА -->
-    <div class="section">
-        <div class="badge">ФАЙЛЫ · ПЕРЕДАЧА</div>
-        <div class="section-title">Как закинуть файл на M5Stick</div>
-        <div class="video-grid" style="margin-bottom: 0;">
-            <div class="video-card">
-                <div class="video-title">Через телефон</div>
-                <a class="video-link" href="https://vt.tiktok.com/ZS9UEjYDh/" target="_blank">Ссылка (телефон) →</a>
-            </div>
-            <div class="video-card">
-                <div class="video-title">Через ПК</div>
-                <a class="video-link" href="https://vt.tiktok.com/ZS9UEyvwx/" target="_blank">Ссылка (ПК) →</a>
+            <div class="conclusion">
+                <h3>Вывод</h3>
+                <p>✔️ Используйте <strong>M5Flasher</strong> или <strong>M5Burner</strong> — гарантированная работа.</p>
             </div>
         </div>
     </div>
 
-    <!-- итог / подпись -->
+    <div id="reviews" class="tab-content">
+        <div class="section">
+            <div class="badge">ВИДЕО · ОБЗОРЫ</div>
+            <div class="section-title">Сделал для вас 2 видео</div>
+            <div class="video-grid">
+                <div class="video-card">
+                    <div class="video-title">Объяснил про модули для M5Stick</div>
+                    <a class="video-link" href="https://vt.tiktok.com/ZSHC1CCmr/" target="_blank">Смотреть видео →</a>
+                </div>
+                <div class="video-card">
+                    <div class="video-title">Сравнение: Flipper Zero, T-Embed, M5Stick C Plus 2, M5Stick S3</div>
+                    <a class="video-link" href="https://vt.tiktok.com/ZSHC1gHh7/" target="_blank">Смотреть видео →</a>
+                </div>
+            </div>
+            <div class="divider-light"></div>
+            <div class="info-note">+ отличия M5Stick S3 от базового M5Stick</div>
+        </div>
+    </div>
+
+    <div id="files" class="tab-content">
+        <div class="section">
+            <div class="badge">ФАЙЛЫ · ПЕРЕДАЧА</div>
+            <div class="section-title">Как закинуть файл на M5Stick</div>
+            <div class="video-grid">
+                <div class="video-card">
+                    <div class="video-title">Загрузка через телефон</div>
+                    <a class="video-link" href="https://vt.tiktok.com/ZS9UEjYDh/" target="_blank">Ссылка (телефон) →</a>
+                </div>
+                <div class="video-card">
+                    <div class="video-title">Загрузка через ПК (Компьютер)</div>
+                    <a class="video-link" href="https://vt.tiktok.com/ZS9UEyvwx/" target="_blank">Ссылка (ПК) →</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <footer>
         M5Stick Plus 2 | всё в одном месте: прошивка, обзоры, загрузка файлов
     </footer>
 </div>
+
+<script>
+    function openTab(evt, tabName) {
+        // Скрываем все вкладки
+        const tabContents = document.getElementsByClassName("tab-content");
+        for (let i = 0; i < tabContents.length; i++) {
+            tabContents[i].classList.remove("active");
+        }
+
+        // Убираем класс active со всех кнопок
+        const tabBtns = document.getElementsByClassName("tab-btn");
+        for (let i = 0; i < tabBtns.length; i++) {
+            tabBtns[i].classList.remove("active");
+        }
+
+        // Показываем текущую вкладку и добавляем класс active кнопке
+        document.getElementById(tabName).classList.add("active");
+        evt.currentTarget.classList.add("active");
+    }
+</script>
 </body>
 </html>
