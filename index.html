@@ -30,10 +30,9 @@
             margin-bottom: 24px;
             overflow-x: auto;
             padding-bottom: 8px;
-            scrollbar-width: none; /* Скрываем скроллбар в Firefox */
+            scrollbar-width: none;
         }
 
-        /* Скрываем скроллбар в Chrome/Safari */
         .tabs-nav::-webkit-scrollbar {
             display: none;
         }
@@ -42,13 +41,13 @@
             background: #ffffff;
             color: #5e3a9c;
             border: 1px solid #e2d6f0;
-            padding: 12px 24px;
+            padding: 12px 26px;
             border-radius: 40px;
             font-size: 0.95rem;
             font-weight: 600;
             cursor: pointer;
             white-space: nowrap;
-            transition: all 0.25s ease;
+            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
         }
 
@@ -61,28 +60,25 @@
             background: #9b6bdf;
             color: #ffffff;
             border-color: #9b6bdf;
-            box-shadow: 0 8px 20px rgba(155, 107, 223, 0.3);
+            box-shadow: 0 8px 20px rgba(155, 107, 223, 0.25);
         }
 
-        /* Контент вкладок */
+        /* Контент вкладок и ультра-плавная анимация */
         .tab-content {
             display: none;
-            animation: fadeIn 0.35s ease forwards;
+            opacity: 0;
+            transform: translateY(15px);
+            will-change: transform, opacity;
+            transition: opacity 0.5s cubic-bezier(0.25, 1, 0.5, 1), transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
         .tab-content.active {
             display: block;
         }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        
+        .tab-content.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         /* Секции и карточки */
@@ -132,16 +128,16 @@
             min-width: 280px;
             max-width: 340px;
             border: 1px solid #d9caf2;
-            transition: all 0.2s;
+            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
         }
 
         .card:hover {
-            transform: translateY(-3px);
+            transform: translateY(-4px);
             border-color: #b794f4;
-            box-shadow: 0 12px 20px -8px rgba(100, 70, 150, 0.15);
+            box-shadow: 0 12px 24px -8px rgba(100, 70, 150, 0.15);
         }
 
         .card-title {
@@ -219,7 +215,7 @@
             flex: 1;
             min-width: 280px;
             border: 1px solid #ddd0f0;
-            transition: 0.2s;
+            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -228,7 +224,8 @@
         .video-card:hover {
             border-color: #b794f4;
             background: #fff;
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 24px -8px rgba(100, 70, 150, 0.1);
         }
         .video-title {
             font-size: 1.25rem;
@@ -281,6 +278,39 @@
             margin-bottom: 6px;
         }
 
+        /* Стили для поддержки */
+        .support-card {
+            background: #faf8ff;
+            border: 1px solid #d9caf2;
+            border-radius: 28px;
+            padding: 32px;
+            text-align: center;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        .support-text {
+            font-size: 1rem;
+            color: #3a2f56;
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+        .tg-btn {
+            display: inline-block;
+            background: #9b6bdf;
+            color: #ffffff;
+            padding: 14px 32px;
+            border-radius: 44px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 16px rgba(155, 107, 223, 0.2);
+        }
+        .tg-btn:hover {
+            background: #8452c9;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(155, 107, 223, 0.3);
+        }
+
         footer {
             text-align: center;
             font-size: 0.8rem;
@@ -289,7 +319,6 @@
             padding: 20px 0;
         }
 
-        /* Адаптивность для мобильных */
         @media (max-width: 768px) {
             body {
                 padding: 20px 12px;
@@ -315,13 +344,16 @@
 <body>
 <div class="container">
 
+    <!-- КНОПКИ ПЕРЕКЛЮЧЕНИЯ ВКЛАДОК -->
     <div class="tabs-nav">
-        <button class="tab-btn active" onclick="openTab(event, 'firmware')">🔌 Прошивка</button>
-        <button class="tab-btn" onclick="openTab(event, 'reviews')">🎥 Обзоры</button>
-        <button class="tab-btn" onclick="openTab(event, 'files')">📁 Передача файлов</button>
+        <button class="tab-btn active" onclick="openTab(event, 'firmware')">Прошивка</button>
+        <button class="tab-btn" onclick="openTab(event, 'reviews')">Обзоры</button>
+        <button class="tab-btn" onclick="openTab(event, 'files')">Передача файлов</button>
+        <button class="tab-btn" onclick="openTab(event, 'support')">Помощь и поддержка</button>
     </div>
 
-    <div id="firmware" class="tab-content active">
+    <!-- ВКЛАДКА 1: ПРОШИВКА -->
+    <div id="firmware" class="tab-content active visible">
         <div class="section">
             <div class="badge">FIRMWARE · M5STICK PLUS 2</div>
             <div class="section-title">Прошивка — проверенные способы</div>
@@ -352,11 +384,12 @@
             </div>
             <div class="conclusion">
                 <h3>Вывод</h3>
-                <p>✔️ Используйте <strong>M5Flasher</strong> или <strong>M5Burner</strong> — гарантированная работа.</p>
+                <p>Используйте M5Flasher или M5Burner — гарантированная работа.</p>
             </div>
         </div>
     </div>
 
+    <!-- ВКЛАДКА 2: ОБЗОРЫ -->
     <div id="reviews" class="tab-content">
         <div class="section">
             <div class="badge">ВИДЕО · ОБЗОРЫ</div>
@@ -364,18 +397,19 @@
             <div class="video-grid">
                 <div class="video-card">
                     <div class="video-title">Объяснил про модули для M5Stick</div>
-                    <a class="video-link" href="https://vt.tiktok.com/ZSHC1CCmr/" target="_blank">Смотреть видео →</a>
+                    <a class="video-link" href="https://vt.tiktok.com/ZSHC1CCmr/" target="_blank">Смотреть видео</a>
                 </div>
                 <div class="video-card">
                     <div class="video-title">Сравнение: Flipper Zero, T-Embed, M5Stick C Plus 2, M5Stick S3</div>
-                    <a class="video-link" href="https://vt.tiktok.com/ZSHC1gHh7/" target="_blank">Смотреть видео →</a>
+                    <a class="video-link" href="https://vt.tiktok.com/ZSHC1gHh7/" target="_blank">Смотреть видео</a>
                 </div>
             </div>
             <div class="divider-light"></div>
-            <div class="info-note">+ отличия M5Stick S3 от базового M5Stick</div>
+            <div class="info-note">плюс отличия M5Stick S3 от базового M5Stick</div>
         </div>
     </div>
 
+    <!-- ВКЛАДКА 3: ФАЙЛЫ -->
     <div id="files" class="tab-content">
         <div class="section">
             <div class="badge">ФАЙЛЫ · ПЕРЕДАЧА</div>
@@ -383,16 +417,29 @@
             <div class="video-grid">
                 <div class="video-card">
                     <div class="video-title">Загрузка через телефон</div>
-                    <a class="video-link" href="https://vt.tiktok.com/ZS9UEjYDh/" target="_blank">Ссылка (телефон) →</a>
+                    <a class="video-link" href="https://vt.tiktok.com/ZS9UEjYDh/" target="_blank">Ссылка (телефон)</a>
                 </div>
                 <div class="video-card">
                     <div class="video-title">Загрузка через ПК (Компьютер)</div>
-                    <a class="video-link" href="https://vt.tiktok.com/ZS9UEyvwx/" target="_blank">Ссылка (ПК) →</a>
+                    <a class="video-link" href="https://vt.tiktok.com/ZS9UEyvwx/" target="_blank">Ссылка (ПК)</a>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- ВКЛАДКА 4: ПОДДЕРЖКА -->
+    <div id="support" class="tab-content">
+        <div class="section">
+            <div class="badge">ПОДДЕРЖКА · СВЯЗЬ</div>
+            <div class="section-title">Помощь и поддержка</div>
+            <div class="support-card">
+                <p class="support-text">Если у вас возникли вопросы по прошивке, работе устройства или нужна помощь, вы можете написать мне напрямую в Telegram.</p>
+                <a href="https://t.me/wortiix" target="_blank" class="tg-btn">Написать в Telegram @wortiix</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ИТОГ / ПОДПИСЬ -->
     <footer>
         M5Stick Plus 2 | всё в одном месте: прошивка, обзоры, загрузка файлов
     </footer>
@@ -400,22 +447,39 @@
 
 <script>
     function openTab(evt, tabName) {
-        // Скрываем все вкладки
         const tabContents = document.getElementsByClassName("tab-content");
-        for (let i = 0; i < tabContents.length; i++) {
-            tabContents[i].classList.remove("active");
-        }
-
-        // Убираем класс active со всех кнопок
         const tabBtns = document.getElementsByClassName("tab-btn");
+
+        // Убираем активные классы у кнопок
         for (let i = 0; i < tabBtns.length; i++) {
             tabBtns[i].classList.remove("active");
         }
-
-        // Показываем текущую вкладку и добавляем класс active кнопке
-        document.getElementById(tabName).classList.add("active");
         evt.currentTarget.classList.add("active");
+
+        // Плавное скрытие текущей вкладки и показ новой
+        for (let i = 0; i < tabContents.length; i++) {
+            if (tabContents[i].classList.contains("visible")) {
+                tabContents[i].classList.remove("visible");
+                setTimeout(() => {
+                    tabContents[i].classList.remove("active");
+                }, 200); // время на скрытие
+            }
+        }
+
+        setTimeout(() => {
+            const nextTab = document.getElementById(tabName);
+            nextTab.classList.add("active");
+            // Небольшой таймаут для запуска CSS анимации
+            setTimeout(() => {
+                nextTab.classList.add("visible");
+            }, 50);
+        }, 200);
     }
+    
+    // Инициализация при первой загрузке
+    document.addEventListener("DOMContentLoaded", () => {
+        document.getElementById('firmware').classList.add('visible');
+    });
 </script>
 </body>
 </html>
