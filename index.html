@@ -270,7 +270,7 @@
         .url a { color: var(--url-link); text-decoration: none; font-weight: 500; }
         .url a:hover { text-decoration: underline; }
 
-        .card-desc { font-size: 0.85rem; color: var(--desc-color); line-height: 1.4; flex-grow: 1; }
+        .card-desc { font-size: 0.85rem; color: var(--desc-color); line-height: 1.4; flex-grow: 1; margin-top: 8px; }
 
         .video-card {
             background: var(--video-card-bg);
@@ -353,7 +353,7 @@
 <div id="splash-screen">
     <div class="splash-content">
         <h1 class="splash-title">NEVERDROID</h1>
-        <p class="splash-subtitle">Здравствуйте! Вас приветствует команда ТГК NEVERDROID. Все файлы и прошивки синхронизируются автоматически.</p>
+        <p class="splash-subtitle">Здравствуйте! Вас приветствует команда ТГК NEVERDROID. Скрипты и прошивки синхронизируются автоматически.</p>
     </div>
 </div>
 
@@ -361,7 +361,8 @@
 
     <div class="header-actions">
         <div class="tabs-nav">
-            <button class="tab-btn active" onclick="openTab(event, 'firmware')">Прошивки и Скрипты</button>
+            <button class="tab-btn active" onclick="openTab(event, 'tg-files-tab')">📁 Файлы из ТГК</button>
+            <button class="tab-btn" onclick="openTab(event, 'firmware')">Официальный софт</button>
             <button class="tab-btn" onclick="openTab(event, 'reviews')">Обзоры</button>
             <button class="tab-btn" onclick="openTab(event, 'files')">Передача файлов</button>
             <button class="tab-btn" onclick="openTab(event, 'support')">Поддержка</button>
@@ -369,17 +370,18 @@
         <button class="theme-toggle-btn" onclick="toggleTheme()" id="theme-btn">Сменить тему</button>
     </div>
 
-    <div id="firmware" class="tab-content active visible">
-        
+    <div id="tg-files-tab" class="tab-content active visible">
         <div class="section">
-            <div class="badge" style="background: #e3f2fd; color: #0d47a1;">LIVE СИНХРОНИЗАЦИЯ</div>
-            <div class="section-title">Свежие файлы из Telegram-канала NEVERDROID</div>
+            <div class="badge" style="background: #e3f2fd; color: #0d47a1;">LIVE ОБНОВЛЕНИЕ</div>
+            <div class="section-title">Все файлы сообщества NEVERDROID</div>
             
             <div class="methods-grid" id="telegram-files-grid">
-                <p style="padding: 20px; color: var(--desc-color);">Синхронизация с каналом, подождите...</p>
+                <p style="padding: 20px; color: var(--desc-color);">Синхронизация списков, секунду...</p>
             </div>
         </div>
+    </div>
 
+    <div id="firmware" class="tab-content">
         <div class="section">
             <div class="badge">BASE TOOLS</div>
             <div class="section-title">Официальный софт для прошивки</div>
@@ -400,7 +402,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 
     <div id="reviews" class="tab-content">
@@ -466,7 +467,7 @@
 </div>
 
 <script>
-    // Подгрузка файлов из data.json, созданного роботом-парсером
+    // Подгрузка ВСЕХ файлов из сгенерированного data.json
     async function loadTelegramFiles() {
         const grid = document.getElementById('telegram-files-grid');
         try {
@@ -475,36 +476,36 @@
             
             const data = await response.json();
             
-            // Если файлов нет или массив пуст
             if (!data.firmwares || data.firmwares.length === 0) {
-                grid.innerHTML = `<p style="padding: 20px; color: var(--desc-color);">В канале пока нет опубликованных файлов скриптов.</p>`;
+                grid.innerHTML = `<p style="padding: 20px; color: var(--desc-color);">Файлы обрабатываются роботом. Пожалуйста, запустите Workflow на GitHub или подождите автоматического обхода.</p>`;
                 return;
             }
 
-            grid.innerHTML = ''; // Очищаем спиннер загрузки
+            grid.innerHTML = ''; // Стираем текст загрузки
 
+            // Отрисовываем абсолютно все файлы из базы данных
             data.firmwares.forEach(item => {
                 const card = document.createElement('div');
                 card.className = 'card';
                 
-                // Проверяем: если описание (desc) пустое или отсутствует, не выводим тег
+                // Проверка: выводить описание только если оно реально есть в ТГ-посте
                 let descHTML = (item.desc && item.desc.trim() !== "") ? `<div class="card-desc">${item.desc}</div>` : '';
                 
                 card.innerHTML = `
                     <div>
-                        <div class="card-title">${item.title} <span class="status telegram">Файл</span></div>
-                        <div class="url"><a href="${item.url}" target="_blank">Открыть в Telegram</a></div>
+                        <div class="card-title">${item.title} <span class="status telegram">Скачать</span></div>
+                        <div class="url"><a href="${item.url}" target="_blank">Открыть файл в Telegram</a></div>
                         ${descHTML}
                     </div>
                 `;
                 grid.appendChild(card);
             });
         } catch (error) {
-            grid.innerHTML = `<p style="padding: 20px; color: var(--desc-color);">Файлы обновляются. Как только робот совершит первый обход канала, они появятся здесь.</p>`;
+            grid.innerHTML = `<p style="padding: 20px; color: var(--desc-color);">Привет! База данных создается. Запустите ручной экшен во вкладке Actions на GitHub, чтобы принудительно запустить робота в первый раз.</p>`;
         }
     }
 
-    // Инициализация
+    // Запуск процессов
     window.addEventListener('DOMContentLoaded', () => {
         loadTelegramFiles();
 
